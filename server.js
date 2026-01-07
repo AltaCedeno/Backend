@@ -4,11 +4,12 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import http from 'http';
 
+// Importar rutas de mi archivo routes/auth.js, es mi ruta base backend
 import authRoutes from './routes/auth.js';
 // import productRoutes from './routes/product.js';
 
 import sequelize from './config/database.js';
-import './models/User.js'; // Importa todos los modelos aquí
+//import './models/Login.jsx';
 
 import { requestLogger, errorLogger } from './middleware/logger.js';
 
@@ -17,6 +18,17 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
+}); 
+
+
+
+/*  const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
+});     */
+
 // --------------------
 // Middlewares
 // --------------------
@@ -24,7 +36,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -59,8 +71,8 @@ app.use(errorLogger);
 // });
 
 // --------------------
-// Rutas principales
-// --------------------
+// Rutas principales la cual debo colocar en Fronted fetch en UserRegister.jsx
+// -------------------
 app.use('/api/auth', authRoutes);
 
 
@@ -109,7 +121,7 @@ app.use((err, req, res, next) => {
             console.log(`🚀 Servidor backend iniciado`);
             console.log(`🌍 Entorno: ${process.env.NODE_ENV || 'development'}`);
             console.log(`🔌 Puerto: ${PORT}`);
-            console.log(`🩺 Health-check: http://localhost:${PORT}/api/health`);
+            console.log(`🩺 Health-check: http://localhost:${PORT}/api/auth`);
             console.log('='.repeat(50) + '\n');
         });
 
